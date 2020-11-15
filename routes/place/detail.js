@@ -97,11 +97,11 @@ router.get('/:placeIdx', authUtil, async(req,res) =>{
                                 const selectLikePlaceQuery = "SELECT * FROM LikePlace WHERE placeIdx = ? AND userIdx = ?";
                                 const selectLikePlaceResult = await db.queryParam_Arr(selectLikePlaceQuery, [req.params.placeIdx, req.decoded.userIdx]); 
 
-                                if (selectLikePlaceResult[0]) {
-                                    resData[0].userLike = true;
+                                if (selectLikePlaceResult[0] == null) {
+                                    resData[0].userLike = false;
                                 }
                                 else {
-                                    resData[0].userLike = false;
+                                    resData[0].userLike = true;
                                 }
 
                                 res.status(200).send(defaultRes.successTrue(statusCode.OK, resMessage.SUCCESS_PLACE_VIEW, resData[0]));

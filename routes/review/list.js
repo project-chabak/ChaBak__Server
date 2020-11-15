@@ -10,6 +10,7 @@ const authUtil = require('../../module/utils/authUtil');
 const db = require('../../module/pool');
 
 /*
+여행지 리뷰 조회
 METHOD       : GET
 URL          : /review/:placeIdx
 PARAMETER    : placeIdx = 여행지 인덱스
@@ -45,8 +46,12 @@ router.get('/:placeIdx', authUtil, async(req,res) => {
             const selectLikeReviewQuery = "SELECT * FROM LikeReview WHERE reviewIdx = ? AND userIdx = ?";
             const selectLikeReviewResult = await db.queryParam_Arr(selectLikeReviewQuery, [selectReviewResult[i].reviewIdx, req.decoded.userIdx]);
             console.log(selectReviewResult[i].reviewIdx, req.decoded.userIdx);
-            if (selectLikeReviewResult[0]) {
-                item.userLike = true;
+
+            if (selectLikeReviewResult[0] == null) {
+                item.userLike = false;
+            }
+            else {
+                item.uerLike = true;
             }
 
             resData.push(item);

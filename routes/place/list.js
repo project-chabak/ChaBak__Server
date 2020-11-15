@@ -13,7 +13,7 @@ const db = require('../../module/pool');
 전체 리스트 조회
 METHOD       : GET
 URL          : /place?order={order}&category={category}&toilet&cooking&store
-PARAMETER    : order = new, star, like
+PARAMETER    : order = new, star, like, review
                category = 카테고리 (DEFAULT = 전체)
                toilet = 1 or X
                cooking = 1 or X
@@ -43,6 +43,9 @@ router.get('/', authUtil, async(req,res) => {
                 break;
             case "like":
                 order = 'Place.placeLikeCnt DESC';
+                break;
+            case "review":
+                order = 'Place.placeReviewCnt DESC';
                 break;
         }
     }
@@ -91,17 +94,37 @@ router.get('/', authUtil, async(req,res) => {
     console.log("전체 쿼리 : ", selectPlaceQuery);
     const selectPlaceResult = await db.queryParam_None(selectPlaceQuery);
 
-    const promises = selectPlaceResult.map(async place => {
+    console.log("비교");
+    for(let i = 0; i<selectPlaceResult.length; i++){
         //LikePlace 테이블 SELECT : placeIdx = placeIdx, userIdx = req.decoded.userIdx
         const selectLikePlaceQuery = "SELECT * FROM LikePlace WHERE placeIdx = ? AND userIdx = ?";
-        const selectLikePlaceResult = await db.queryParam_Arr(selectLikePlaceQuery, [place.placeIdx, req.decoded.userIdx]);
+        const selectLikePlaceResult = await db.queryParam_Arr(selectLikePlaceQuery, [selectPlaceResult[i].placeIdx, req.decoded.userIdx]);
 
-        if (selectLikePlaceResult[0]) {
-            place.userLike = true;
+        if (selectLikePlaceResult[0] == null) {
+            selectPlaceResult[i].userLike = false;
         }
-        return resData.push(place);
-    });
-    await Promise.all(promises);
+        else {
+            selectPlaceResult[i].userLike = true;
+        }
+
+        resData.push(selectPlaceResult[i]);
+    }
+
+    // const promises = selectPlaceResult.map(async place => {
+    //     //LikePlace 테이블 SELECT : placeIdx = placeIdx, userIdx = req.decoded.userIdx
+    //     const selectLikePlaceQuery = "SELECT * FROM LikePlace WHERE placeIdx = ? AND userIdx = ?";
+    //     const selectLikePlaceResult = await db.queryParam_Arr(selectLikePlaceQuery, [place.placeIdx, req.decoded.userIdx]);
+
+    //     if (selectLikePlaceResult[0] == null) {
+    //         place.userLike = false;
+    //     }
+    //     else {
+    //         place.userLike = true;
+    //     }
+
+    //     return resData.push(place);
+    // });
+    // await Promise.all(promises);
 
     res.status(200).send(defaultRes.successTrue(statusCode.OK, resMessage.SUCCESS_PLACE_LIST, resData));
 });
