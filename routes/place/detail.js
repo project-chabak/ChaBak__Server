@@ -40,6 +40,7 @@ router.get('/:placeIdx', authUtil, async(req,res) =>{
         else {
             resData.push(selectPlaceResult[0]);
             resData[0].placeDate = new Date(resData[0].placeDate);
+            resData[0].placeStar = resData[0].placeStar / resData[0].placeReviewCnt;
             
             //placeCategory 정보 -> PlaceCategory 테이블 접근
             const selectPlaceCategoryQuery = 'SELECT placeCategoryName FROM PlaceCategory WHERE placeCategoryIdx = ?';
@@ -55,7 +56,7 @@ router.get('/:placeIdx', authUtil, async(req,res) =>{
                     res.status(200).send(defaultRes.successFalse(statusCode.OK, resMessage.FAIL_PLACE_VIEW));
                 }
                 else {
-                    resData[0].placeCategory = selectPlaceCategoryResult[0].placeCategoryName;
+                    resData[0].placeCategoryName = selectPlaceCategoryResult[0].placeCategoryName;
                     
                     //placeImg 정보 -> PlaceImg 테이블 접근
                     const selectPlaceImgQuery = 'SELECT placeImg FROM PlaceImg WHERE placeIdx = ?';
@@ -88,7 +89,7 @@ router.get('/:placeIdx', authUtil, async(req,res) =>{
                             else {
                                 if (selectPlaceToiletResult[0] == null) {
                                     console.log("PlaceToilet 테이블에 placeIdx에 해당하는 칼럼이 존재하지 않습니다.");
-                                    res.status(200).send(defaultRes.successTrue(statusCode.OK, resMessage.SUCCESS_PLACE_VIEW_NO_TOILET, resData));
+                                    res.status(200).send(defaultRes.successTrue(statusCode.OK, resMessage.SUCCESS_PLACE_VIEW_NO_TOILET, resData[0]));
                                 }
                                 else {
                                     let placeToilet = [];

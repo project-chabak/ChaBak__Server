@@ -22,7 +22,7 @@ router.get('/', authUtil, async(req,res) =>{
     console.log("authUtil 성공");
 
     //LikePlace 테이블과 Place 테이블 조인 후 userIdx와 일치하는 정보 선택
-    const likeplaceQuery = 'SELECT * FROM Place JOIN LikePlace ON Place.placeIdx = LikePlace.placeIdx WHERE userIdx = ? ORDER BY Place.placeLikeCnt DESC'
+    const likeplaceQuery = 'SELECT Place.placeIdx, Place.placeTitle, Place.placeAddress, Place.placeAvgStar, Place.placeThumbnail FROM Place JOIN LikePlace ON Place.placeIdx = LikePlace.placeIdx WHERE userIdx = ? ORDER BY Place.placeLikeCnt DESC';
     const likePlaceResult = await db.queryParam_Parse(likeplaceQuery, [req.decoded.userIdx]);
 
     //데이터 저장
@@ -38,12 +38,9 @@ router.get('/', authUtil, async(req,res) =>{
             res.status(200).send(defaultRes.successTrue(statusCode.OK, resMessage.NO_LIKE_PLACE));
         }
         else {
-            for (let i = 0; i < likePlaceResult.length; i++) {
-                const item = {
-                    info: []
-                }
-                item.info.push(likePlaceResult[i]);
-                resData.push(item);
+            for (let i = 0; i < likePlaceResult.length; i++) {  
+                likePlaceResult[i].userLike = true;
+                resData.push(likePlaceResult[i]);
             }
             console.log("좋아요 장소 리스트 성공");
             res.status(200).send(defaultRes.successTrue(statusCode.OK, resMessage.SUCCESS_LIKE_PLACE, resData)); 
@@ -108,6 +105,7 @@ router.delete('/', authUtil, async(req,res) =>{
         //Place 테이블에 placeLikeCnt 속성 -1
         const updatePlaceLikeQuery = 'UPDATE Place SET placeLikeCnt = placeLikeCnt - 1 WHERE placeIdx = ?';
         const updatePlaceLikeResult = await db.queryParam_Parse(updatePlaceLikeQuery, [req.body.placeIdx]);
+
         res.status(200).send(defaultRes.successTrue(statusCode.OK, resMessage.SUCCESS_DISLIKE));
     }
 });

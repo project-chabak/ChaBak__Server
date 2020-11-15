@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-const moment = require('moment');
 
 const upload = require('../../config/multer');
 
@@ -11,9 +10,9 @@ const resMessage = require('../../module/utils/responseMessage');
 const db = require('../../module/pool');
 
 /*
-장소 등록용
+여행지 등록용
 METHOD       : POST
-URL          : /place/register
+URL          : /register/place
 BODY         : category = 장소 카테고리(ex. 경기도, 강원도 ..)
                address = 장소 세부주소
                title = 장소 글 제목
@@ -40,7 +39,7 @@ router.post('/', upload.array('imgs'), async (req, res) => {
     }
 
     //Place 테이블에 삽입 => placeIdx
-    const insertPlaceQuery = 'INSERT INTO Place (placeCategoryIdx, placeAddress, placeTitle, placeName, placeDate, placeContent, placeStore, placeCooking, placeLatitude, placeLongitude) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+    const insertPlaceQuery = 'INSERT INTO Place (placeCategoryIdx, placeAddress, placeTitle, placeName, placeDate, placeContent, placeStore, placeCooking, placeLatitude, placeLongitude, placeThumbnail) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
     //쿼리에 넣을 데이터들
     const placeCategoryIdx = selectCategoryIndexResult[0].placeCategoryIdx;
     const placeAddress = req.body.address;
@@ -60,11 +59,12 @@ router.post('/', upload.array('imgs'), async (req, res) => {
     const placeLatitude = req.body.latitude;
     const placeLongitude = req.body.longitude;
 
-    const insertPlaceResult = await db.queryParam_Arr(insertPlaceQuery, [placeCategoryIdx, placeAddress, placeTitle, placeName, placeDate, placeContent, placeStore, placeCooking, placeLatitude, placeLongitude]);
+    const insertPlaceResult = await db.queryParam_Arr(insertPlaceQuery, [placeCategoryIdx, placeAddress, placeTitle, placeName, placeDate, placeContent, placeStore, placeCooking, placeLatitude, placeLongitude, req.files[0].location]);
     if (!insertPlaceResult) {
         console.log("DB에 장소를 삽입할 수 없습니다.");
         res.status(200).send(defaultRes.successFalse(statusCode.OK, resMessage.DB_ERROR));
-    } 
+    }
+    console.log("insert로그 : ", insertPlaceResult.insertId);
     
     const selectPlaceIdxQuery = 'SELECT placeIdx FROM Place WHERE placeName = ?';
     const selectPlaceIdxResult = await db.queryParam_Parse(selectPlaceIdxQuery, [placeName]);
@@ -77,7 +77,7 @@ router.post('/', upload.array('imgs'), async (req, res) => {
 
     //PlaceImg 테이블에 이미지 삽입
     const imgs = req.files;
-    for (let i = 0; i < imgs.length; i++) {
+    for (let i = 1; i < imgs.length; i++) {
         const insertImgQuery = 'INSERT INTO PlaceImg (placeIdx, placeImg) VALUES (?, ?)';
         const placeImg = imgs[i].location;
         const insertImgResult = await db.queryParam_Arr(insertImgQuery, [placeIdx, placeImg]);

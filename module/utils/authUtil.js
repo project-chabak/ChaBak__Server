@@ -8,7 +8,7 @@ const authUtil = async (req, res, next) => {
     const token = req.headers.token;
 
     //토큰이 없을 경우
-    if (!token ){
+    if (!token){
         return res.json(util.successFalse(statusCode.BAD_REQUEST, resMessage.EMPTY_TOKEN));
     }
     else {

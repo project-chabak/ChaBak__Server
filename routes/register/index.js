@@ -1,0 +1,9 @@
+var express = require('express');
+var router = express.Router();
+
+//여행지 등록
+router.use("/place", require("./place"));
+//카테고리 등록
+router.use("/category", require("./category"));
+
+module.exports = router;

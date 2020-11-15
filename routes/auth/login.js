@@ -26,7 +26,7 @@ router.post('/', async(req, res) => {
     //아이디 존재X
     if(loginResult[0] == null){
         console.log("아이디가 존재하지 않습니다.");
-        res.status(200).send(defaultRes.successTrue(statusCode.OK, resMessage.NOT_EXIST_ID));
+        res.status(200).send(defaultRes.successFalse(statusCode.OK, resMessage.NOT_EXIST_ID));
     }
     //아이디 존재 => 비밀번호 일치 검사
     else {
@@ -48,7 +48,7 @@ router.post('/', async(req, res) => {
             //비밀번호 불일치
             else {
                 console.log("비밀번호가 일치하지 않습니다.");
-                res.status(200).send(defaultRes.successTrue(statusCode.OK, resMessage.NOT_CORRECT_PASSWORD));
+                res.status(200).send(defaultRes.successFalse(statusCode.OK, resMessage.NOT_CORRECT_PASSWORD));
             }
         });
     }
