@@ -77,7 +77,7 @@ router.post('/', upload.array('imgs'), async (req, res) => {
 
     //PlaceImg 테이블에 이미지 삽입
     const imgs = req.files;
-    for (let i = 1; i < imgs.length; i++) {
+    for (let i = 0; i < imgs.length; i++) {
         const insertImgQuery = 'INSERT INTO PlaceImg (placeIdx, placeImg) VALUES (?, ?)';
         const placeImg = imgs[i].location;
         const insertImgResult = await db.queryParam_Arr(insertImgQuery, [placeIdx, placeImg]);

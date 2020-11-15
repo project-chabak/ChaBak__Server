@@ -87,18 +87,24 @@ router.get('/:placeIdx', authUtil, async(req,res) =>{
                                 res.status(200).send(defaultRes.successFalse(statusCode.OK, resMessage.DB_ERROR));
                             } 
                             else {
-                                if (selectPlaceToiletResult[0] == null) {
-                                    console.log("PlaceToilet 테이블에 placeIdx에 해당하는 칼럼이 존재하지 않습니다.");
-                                    res.status(200).send(defaultRes.successTrue(statusCode.OK, resMessage.SUCCESS_PLACE_VIEW_NO_TOILET, resData[0]));
+                                let placeToilet = [];
+                                for(let i = 0; i<selectPlaceToiletResult.length; i++){
+                                    placeToilet.push(selectPlaceToiletResult[i]);
+                                }
+                                resData[0].placeToilet = placeToilet;
+
+                                //LikePlace 테이블 SELECT : placeIdx = placeIdx, userIdx = req.decoded.userIdx
+                                const selectLikePlaceQuery = "SELECT * FROM LikePlace WHERE placeIdx = ? AND userIdx = ?";
+                                const selectLikePlaceResult = await db.queryParam_Arr(selectLikePlaceQuery, [req.params.placeIdx, req.decoded.userIdx]); 
+
+                                if (selectLikePlaceResult[0]) {
+                                    resData[0].userLike = true;
                                 }
                                 else {
-                                    let placeToilet = [];
-                                    for(let i = 0; i<selectPlaceToiletResult.length; i++){
-                                        placeToilet.push(selectPlaceToiletResult[i]);
-                                    }
-                                    resData[0].placeToilet = placeToilet;
-                                    res.status(200).send(defaultRes.successTrue(statusCode.OK, resMessage.SUCCESS_PLACE_VIEW, resData[0]));
+                                    resData[0].userLike = false;
                                 }
+
+                                res.status(200).send(defaultRes.successTrue(statusCode.OK, resMessage.SUCCESS_PLACE_VIEW, resData[0]));
                             }
                         }
                     }
