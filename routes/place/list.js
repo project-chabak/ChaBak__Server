@@ -23,12 +23,7 @@ TOKEN        : 토큰 값
 
 router.get('/', authUtil, async(req,res) => {
 
-    let resData = {};
-    let placeList = [];
-
-    const selectPlaceCategoryQuery = 'SELECT placeCategoryName, placeCategoryImg FROM PlaceCategory ORDER BY placeCategoryName ASC';
-    const selectPlaceCategoryResult = await db.queryParam_None(selectPlaceCategoryQuery);
-    resData.category = selectPlaceCategoryResult;
+    let resData = [];
 
     console.log("order : ", req.query.order);
     console.log("category : ", req.query.category);
@@ -111,9 +106,8 @@ router.get('/', authUtil, async(req,res) => {
             selectPlaceResult[i].userLike = true;
         }
 
-        placeList.push(selectPlaceResult[i]);
+        resData.push(selectPlaceResult[i]);
     }
-    resData.placeList = placeList;
 
     // const promises = selectPlaceResult.map(async place => {
     //     //LikePlace 테이블 SELECT : placeIdx = placeIdx, userIdx = req.decoded.userIdx
