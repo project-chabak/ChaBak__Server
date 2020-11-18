@@ -12,16 +12,27 @@ const db = require('../../module/pool');
 /*
 여행지 리뷰 조회
 METHOD       : GET
-URL          : /review/:placeIdx
+URL          : /review/:placeIdx?order={order}
 PARAMETER    : placeIdx = 여행지 인덱스
+               order = like(추천순), new(최신순)
 TOKEN        : 토큰 값
 */
 
 router.get('/:placeIdx', authUtil, async(req,res) => {
     let resData = [];
 
+    let order = "";
+    switch (req.query.order) {
+        case "new":
+            order = 'Review.reviewDate ASC';
+            break;
+        case "like":
+            order = 'Review.reviewLikeCnt DESC';
+            break;
+    }
+
     //Review JOIN User 테이블 SELECT : placeIdx = placeIdx
-    const selectReviewQuery = 'SELECT nickname, reviewIdx, reviewContent, reviewDate, reviewStar, reviewLikeCnt FROM Review JOIN User ON Review.userIdx = User.userIdx WHERE placeIdx = ? ORDER BY Review.reviewLikeCnt DESC';
+    const selectReviewQuery = 'SELECT nickname, reviewIdx, reviewContent, reviewDate, reviewStar, reviewLikeCnt FROM Review JOIN User ON Review.userIdx = User.userIdx WHERE placeIdx = ? ORDER BY ' + order;
     const selectReviewResult = await db.queryParam_Parse(selectReviewQuery, [req.params.placeIdx]);
 
     if (!selectReviewResult) {

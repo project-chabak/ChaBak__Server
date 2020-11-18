@@ -65,15 +65,7 @@ router.post('/', upload.array('imgs'), async (req, res) => {
         res.status(200).send(defaultRes.successFalse(statusCode.OK, resMessage.DB_ERROR));
     }
     console.log("insert로그 : ", insertPlaceResult.insertId);
-    
-    const selectPlaceIdxQuery = 'SELECT placeIdx FROM Place WHERE placeName = ?';
-    const selectPlaceIdxResult = await db.queryParam_Parse(selectPlaceIdxQuery, [placeName]);
-    if (!selectPlaceIdxResult) {
-        console.log("장소 인덱스를 찾을 수 없습니다.");
-        res.status(200).send(defaultRes.successFalse(statusCode.OK, resMessage.DB_ERROR));
-    }
-
-    const placeIdx = selectPlaceIdxResult[0].placeIdx;
+    const placeIdx = insertPlaceResult.insertId;
 
     //PlaceImg 테이블에 이미지 삽입
     const imgs = req.files;

@@ -36,9 +36,6 @@ router.post('/', upload.single('imgs'), async (req, res) => {
     else {
         res.status(200).send(defaultRes.successTrue(statusCode.OK, resMessage.SUCCESS_CATEGORY_REGISTER)); 
     }
-
-    //추천 여행지
-
 });
 
 module.exports = router;

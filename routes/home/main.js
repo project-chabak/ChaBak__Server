@@ -11,6 +11,7 @@ const db = require('../../module/pool');
 홈 조회
 METHOD       : GET
 URL          : /home
+TOKEN        : 토큰 값
 */
 
 router.get('/', async(req, res) => {
@@ -26,7 +27,7 @@ router.get('/', async(req, res) => {
     console.log("resData : ", resData);
     res.status(200).send(defaultRes.successTrue(statusCode.OK, resMessage.SUCCESS_MYPAGE, resData));
 
-    //추천 여행지
+    //추천 여행지 => /place?order=star URI 사용
 });
 
 module.exports = router;

@@ -12,9 +12,9 @@ const db = require('../../module/pool');
 /*
 전체 리스트 조회
 METHOD       : GET
-URL          : /place?order={order}&category={category}&toilet&cooking&store
-PARAMETER    : order = new, star, like, review
-               category = 카테고리 (DEFAULT = 전체)
+URL          : /place?order={order}&category={category}&toilet={1}&cooking={1}&store={1}
+PARAMETER    : order = new(등록일순), star(별점순), like(인기순), review(리뷰많은순) or X(DEFAULT = 별점순)
+               category = 경기도/강원도/...('/'로 구분) or X(DEFAULT = 전체)
                toilet = 1 or X
                cooking = 1 or X
                store = 1 or X
