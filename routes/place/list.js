@@ -23,7 +23,12 @@ TOKEN        : 토큰 값
 
 router.get('/', authUtil, async(req,res) => {
 
-    let resData = [];
+    let resData = {};
+    let placeList = [];
+
+    const selectPlaceCategoryQuery = 'SELECT placeCategoryName, placeCategoryImg FROM PlaceCategory ORDER BY placeCategoryName ASC';
+    const selectPlaceCategoryResult = await db.queryParam_None(selectPlaceCategoryQuery);
+    resData.category = selectPlaceCategoryResult;
 
     console.log("order : ", req.query.order);
     console.log("category : ", req.query.category);
@@ -36,7 +41,7 @@ router.get('/', authUtil, async(req,res) => {
     if (req.query.order) {
         switch (req.query.order) {
             case "new":
-                order = 'Place.placeDate ASC';
+                order = 'Place.placeIdx DESC';
                 break;
             case "star":
                 order = 'Place.placeAvgStar DESC';
@@ -80,21 +85,20 @@ router.get('/', authUtil, async(req,res) => {
 
     //toilet 처리
     let toiletQuery = "";
-    if (req.query.toilet) {
+    if (req.query.toilet == 1) {
         toiletQuery = "placeIdx IN (SELECT DISTINCT placeIdx FROM PlaceToilet) AND ";
     }
     console.log("toiletQuery = ", toiletQuery);
 
     //cooking & store 처리
-    let cookingQuery = (req.query.cooking) ? req.query.cooking : "NULL";
-    let storeQuery = (req.query.store) ? req.query.store : "NULL"; 
+    let cookingQuery = (req.query.cooking == 1) ? req.query.cooking : "NULL";
+    let storeQuery = (req.query.store == 1) ? req.query.store : "NULL"; 
     
     //전체 필터 완료
     const selectPlaceQuery = "SELECT placeIdx, placeTitle, placeAddress, placeAvgStar, placeThumbnail FROM Place WHERE " + categoryQuery + toiletQuery + "placeCooking=ifnull(" + cookingQuery + ", placeCooking) AND placeStore=ifnull(" + storeQuery + ", placeStore) " + orderQuery;
     console.log("전체 쿼리 : ", selectPlaceQuery);
     const selectPlaceResult = await db.queryParam_None(selectPlaceQuery);
 
-    console.log("비교");
     for(let i = 0; i<selectPlaceResult.length; i++){
         //LikePlace 테이블 SELECT : placeIdx = placeIdx, userIdx = req.decoded.userIdx
         const selectLikePlaceQuery = "SELECT * FROM LikePlace WHERE placeIdx = ? AND userIdx = ?";
@@ -107,8 +111,9 @@ router.get('/', authUtil, async(req,res) => {
             selectPlaceResult[i].userLike = true;
         }
 
-        resData.push(selectPlaceResult[i]);
+        placeList.push(selectPlaceResult[i]);
     }
+    resData.placeList = placeList;
 
     // const promises = selectPlaceResult.map(async place => {
     //     //LikePlace 테이블 SELECT : placeIdx = placeIdx, userIdx = req.decoded.userIdx

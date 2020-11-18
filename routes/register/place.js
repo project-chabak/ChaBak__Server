@@ -51,7 +51,10 @@ router.post('/', upload.array('imgs'), async (req, res) => {
     const year = today.getFullYear(); 
     const month = today.getMonth() + 1;  
     const date = today.getDate();  
-    const placeDate = year + '-' + month + '-' + date;
+    const hours = today.getHours();
+    const minutes = today.getMinutes();  
+    const seconds = today.getSeconds();
+    const placeDate = year + '-' + month + '-' + date + ' ' + hours + ':' + minutes + ':' + seconds;
 
     const placeContent = req.body.content;
     const placeStore = req.body.store;

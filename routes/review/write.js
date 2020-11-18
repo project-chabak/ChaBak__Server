@@ -35,7 +35,11 @@ router.post('/', upload.array('imgs'), authUtil, async (req, res) => {
     const year = today.getFullYear(); 
     const month = today.getMonth() + 1;  
     const date = today.getDate();  
-    const reviewDate = year + '-' + month + '-' + date;
+    const hours = today.getHours();
+    const minutes = today.getMinutes();  
+    const seconds = today.getSeconds();
+    const reviewDate = year + '-' + month + '-' + date + ' ' + hours + ':' + minutes + ':' + seconds;
+    console.log(reviewDate);
     const reviewContent = req.body.content;
     const reviewStar = req.body.star * 1;
     console.log(placeIdx, reviewStar);

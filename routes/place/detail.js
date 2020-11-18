@@ -39,8 +39,6 @@ router.get('/:placeIdx', authUtil, async(req,res) =>{
         } 
         else {
             resData.push(selectPlaceResult[0]);
-            resData[0].placeDate = new Date(resData[0].placeDate);
-            resData[0].placeStar = resData[0].placeStar / resData[0].placeReviewCnt;
             
             //placeCategory 정보 -> PlaceCategory 테이블 접근
             const selectPlaceCategoryQuery = 'SELECT placeCategoryName FROM PlaceCategory WHERE placeCategoryIdx = ?';

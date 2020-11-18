@@ -24,7 +24,7 @@ router.get('/:placeIdx', authUtil, async(req,res) => {
     let order = "";
     switch (req.query.order) {
         case "new":
-            order = 'Review.reviewDate ASC';
+            order = 'Review.reviewIdx DESC';
             break;
         case "like":
             order = 'Review.reviewLikeCnt DESC';
@@ -56,13 +56,13 @@ router.get('/:placeIdx', authUtil, async(req,res) => {
             //LikeReview 테이블 SELECT : reviewIdx = selectReviewResult[i].reviewIdx, userIdx = req.decoded.userIdx
             const selectLikeReviewQuery = "SELECT * FROM LikeReview WHERE reviewIdx = ? AND userIdx = ?";
             const selectLikeReviewResult = await db.queryParam_Arr(selectLikeReviewQuery, [selectReviewResult[i].reviewIdx, req.decoded.userIdx]);
-            console.log(selectReviewResult[i].reviewIdx, req.decoded.userIdx);
+            //console.log(selectReviewResult[i].reviewIdx, req.decoded.userIdx);
 
             if (selectLikeReviewResult[0] == null) {
                 item.userLike = false;
             }
             else {
-                item.uerLike = true;
+                item.userLike = true;
             }
 
             resData.push(item);

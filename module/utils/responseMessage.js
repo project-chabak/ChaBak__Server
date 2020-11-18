@@ -48,4 +48,7 @@ module.exports = {
     //마이페이지
     SUCCESS_MYPAGE: "마이페이지 조회 성공",
     FAIL_MYPAGE: "마이페이지 조회 실패",
+
+    //홈
+    SUCCESS_HOME: "홈 조회 성공",
 };

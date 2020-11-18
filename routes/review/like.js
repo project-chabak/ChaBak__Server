@@ -20,6 +20,7 @@ TOKEN        : 토큰 값
 router.post('/', authUtil, async(req,res) =>{
 
     //authUtil 미들웨어로 req.decoded에 유저 값(userIdx, id, nickname) 추가
+    console.log("userIdx : ", req.decoded.userIdx);
 
     //LikeReview 테이블에 데이터(userIdx, reviewIdx) 추가
     const insertLikeReviewQuery = 'INSERT INTO LikeReview (userIdx, reviewIdx) VALUES (?, ?)';
