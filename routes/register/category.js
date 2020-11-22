@@ -17,13 +17,13 @@ BODY         : name = 카테고리 이름 : 서울, 부산, 제주도, 경기도
                img = 카테고리 이미지
 */
 
-router.post('/', upload.single('imgs'), async (req, res) => {
+router.post('/', upload.single('img'), async (req, res) => {
 
     //upload 미들웨어 사용
     console.log("upload 미들웨어 성공");
 
     //placeCategory 테이블에 INSERT : placeCategoryName = name, placeCategoryImg = img
-    const insertPlaceCategoryQuery = 'INSERT INTO placeCategory (placeCategoryName, placeCategoryImg) VALUES (?, ?)';
+    const insertPlaceCategoryQuery = 'INSERT INTO PlaceCategory (placeCategoryName, placeCategoryImg) VALUES (?, ?)';
     const placeCategoryName = req.body.name;
     const placeCategoryImg = req.file.location;
     const insertPlaceCategoryResult = await db.queryParam_Arr(insertPlaceCategoryQuery, [placeCategoryName, placeCategoryImg]);

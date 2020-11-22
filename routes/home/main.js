@@ -22,7 +22,7 @@ router.get('/', authUtil, async(req, res) => {
 
     //카테고리 이름, 이미지 
     //PlaceCategory 테이블 SELECT : *
-    const selectPlaceCategoryQuery = 'SELECT * FROM PlaceCategory';
+    const selectPlaceCategoryQuery = 'SELECT * FROM PlaceCategory ORDER BY placeCategoryName ASC';
     const selectPlaceCategoryResult = await db.queryParam_None(selectPlaceCategoryQuery);
     resData.category = selectPlaceCategoryResult;
 
