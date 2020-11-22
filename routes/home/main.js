@@ -21,14 +21,14 @@ router.get('/', authUtil, async(req, res) => {
     let placeList = [];
 
     //카테고리 이름, 이미지 
-    //PlaceCategory 테이블 SELECT : placeCategoryName, placCategoryImg
-    const selectPlaceCategoryQuery = 'SELECT placeCategoryName, placeCategoryImg FROM PlaceCategory';
+    //PlaceCategory 테이블 SELECT : *
+    const selectPlaceCategoryQuery = 'SELECT * FROM PlaceCategory';
     const selectPlaceCategoryResult = await db.queryParam_None(selectPlaceCategoryQuery);
     resData.category = selectPlaceCategoryResult;
 
-    //추천 여행지 => 개수 제한(? : 제한 걸어두고 더보기 누를시 전체여행지 보기)
+    //추천 여행지 => 개수 제한 10개
     //Place 테이블 SELECT : placeIdx, placeTitle, placeAvgStar, placeThumbnail ORDER BY placeAvgStar DESC, placeReviewCnt DESC
-    const selectPlaceQuery = "SELECT placeIdx, placeTitle, placeAddress, placeAvgStar, placeThumbnail FROM Place ORDER BY placeAvgStar DESC, placeReviewCnt DESC";
+    const selectPlaceQuery = "SELECT placeIdx, placeTitle, placeAddress, placeAvgStar, placeThumbnail FROM Place ORDER BY placeAvgStar DESC, placeReviewCnt DESC LIMIT 10";
     const selectPlaceResult = await db.queryParam_None(selectPlaceQuery);
     for(let i = 0; i<selectPlaceResult.length; i++){
         //LikePlace 테이블 SELECT : placeIdx = placeIdx, userIdx = req.decoded.userIdx
