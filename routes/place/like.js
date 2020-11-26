@@ -93,8 +93,10 @@ router.delete('/', authUtil, async(req,res) =>{
     //authUtil 미들웨어로 req.decoded에 유저 값(userIdx, id, nickname) 추가
 
     //LikePlace 테이블에 데이터(userIdx, placeIdx) 삭제
-    const dislikeQuery = 'DELETE FROM LikePlace WHERE userIdx = ? AND placeIdx = ?';;
+    const dislikeQuery = 'DELETE FROM LikePlace WHERE userIdx = ? AND placeIdx = ?';
+    console.log("placeIdx : ", req.body.placeIdx);
     const dislikeResult = await db.queryParam_Arr(dislikeQuery, [req.decoded.userIdx, req.body.placeIdx]);
+    console.log("dislikeResult : ", dislikeResult);
 
     //좋아요 취소 실패
     if (!dislikeResult) {
