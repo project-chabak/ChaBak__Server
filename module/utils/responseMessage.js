@@ -51,4 +51,8 @@ module.exports = {
 
     //홈
     SUCCESS_HOME: "홈 조회 성공",
+
+    //여행지 제보
+    SUCCESS_REPORT_PLACE: "여행지 제보 성공",
+    FAIL_REPORT_PLACE: "여행지 제보 실패(이메일 오류)",
 };

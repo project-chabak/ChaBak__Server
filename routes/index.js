@@ -13,4 +13,6 @@ router.use("/mypage", require("./mypage/index"));
 
 router.use("/register", require("./register/index"));
 
+router.use("/report", require("./report/index"));
+
 module.exports = router;
