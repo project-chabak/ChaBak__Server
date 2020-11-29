@@ -52,7 +52,7 @@ router.post('/', authUtil, async (req, res) => {
         let mailOptions = {
             from: serverEmail.auth.user,    // 발송 메일 주소
             to: serverEmail.auth.user,      // 수신 메일 주소
-            subject: '[차박2일]' + req.decoded.nicname +' 님의 여행지 제보 입니다.',   // 제목
+            subject: '[차박2일]' + req.decoded.nickname +' 님의 여행지 제보 입니다.',   // 제목
             html: `<h1>여행지 제보</h1>
             <h3>여행지 이름</h3>
             <p>${placeName}</p>
