@@ -30,7 +30,7 @@
 Entity Relationship Diagram
 
 **********
-<img width="700" alt="ERD" src="https://user-images.githubusercontent.com/67046364/100999174-c2405400-359f-11eb-9c6b-c579975eacb0.png">
+<img width="700" alt="ERD" src="https://user-images.githubusercontent.com/67046364/101000476-4e9f4680-35a1-11eb-9a6e-b9d255a9330e.PNG">
 
 
 ### Developer
