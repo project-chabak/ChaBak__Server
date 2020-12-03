@@ -1,8 +1,9 @@
 # 차박2일_Server
 
 ### 차박 2일
-![image](https://user-images.githubusercontent.com/67046364/100994376-dda86080-3599-11eb-8ceb-13450c3bc809.png)
-차박 여행지 정보 제공 및 리뷰 공유 서비스
+<p align="center"><img src="https://user-images.githubusercontent.com/67046364/100994376-dda86080-3599-11eb-8ceb-13450c3bc809.png" alt="이미지" height="200px"></p>
+:boom: 차박 여행지 정보 제공 및 리뷰 공유 서비스
+
 
 ## PickPle Project Repositories
 
