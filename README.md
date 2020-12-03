@@ -1,33 +1,13 @@
 # 차박2일_Server
-
-### 차박 2일
-<p align="center"><img src="https://user-images.githubusercontent.com/67046364/100994376-dda86080-3599-11eb-8ceb-13450c3bc809.png" alt="이미지" height="200px"></p>
+<p align="center"><img src="https://user-images.githubusercontent.com/67046364/100994376-dda86080-3599-11eb-8ceb-13450c3bc809.png" alt="차박2일" height="200px"></p>
 :boom: 차박 여행지 정보 제공 및 리뷰 공유 서비스
-
-
-## PickPle Project Repositories
-
-* <a href="https://github.com/mym0404/Pick-Place-Android">Android  ![Progress](http://progressed.io/bar/100)  </a>
-
-Android Studio Client
-
-* <a href="https://github.com/project-pickple/Pickple_Server">Server  ![Progress](http://progressed.io/bar/100)  </a>
-
-Node.js API Server
-
-
-### Work Flow 
-
-*********
-<img width="1066" alt="스크린샷 2019-09-30 오후 4 48 15" src="https://user-images.githubusercontent.com/52193680/65859002-31218c00-e3a2-11e9-9317-cd62127a6b24.png">
 
 
 ### Server Architecture
 서버 아키텍쳐
 
 **********
-<img width="948" alt="서버 아키텍처 픽플" src="https://user-images.githubusercontent.com/52193680/65820918-c8cf8f00-e269-11e9-9fa0-f194bd727bbe.png">
-
+<img width="700" alt="서버 아키텍쳐" src="https://user-images.githubusercontent.com/67046364/100998643-23b3f300-359f-11eb-8bf7-14bffbe970c9.PNG">
 
 
 ### Tool & Technology
@@ -46,23 +26,11 @@ Node.js API Server
 - Workbench - MySQL database
 
 
-
 ### ERD
 Entity Relationship Diagram
 
 **********
-
-![KakaoTalk_Photo_2019-09-30-01-27-34](https://user-images.githubusercontent.com/52193680/65835486-94b7a500-e321-11e9-8fb3-9e0bb4733840.png)
-
-
-
-### API
-API 문서 Wiki 작성
-
-***********
-
-https://github.com/project-pickple/Pickple_Server/wiki
-
+<img width="700" alt="ERD" src="https://user-images.githubusercontent.com/67046364/100999174-c2405400-359f-11eb-9c6b-c579975eacb0.png">
 
 
 ### Developer
@@ -70,16 +38,4 @@ https://github.com/project-pickple/Pickple_Server/wiki
 개발자
 ***********
 
-**양희연**(hhiyeon)
-
-**석영현**(yeonghyeonSeok)
-
-
-### PICKPLE의 다른 프로젝트
-
-************
-
-- 안드로이드 
-<https://github.com/mym0404/Pick-Place-Android>
-
-
+**황규철**(Hwang-Kyu-Cheol)
